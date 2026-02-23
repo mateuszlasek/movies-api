@@ -25,7 +25,7 @@ App available at: http://localhost:8000
 - MySQL 8.0+ / MariaDB
 - Composer
 - Node.js + npm
-- TMDB API token ([get one here](https://www.themoviedb.org/settings/api))
+- TMDB API token
 
 ## Setup
 
