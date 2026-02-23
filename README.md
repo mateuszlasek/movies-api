@@ -44,7 +44,7 @@ npm run build
 
 ## Importing data from TMDB
 
-Dispatches jobs to import 50 movies, 10 series and all genres:
+Dispatches jobs to import 50 movies, 10 series and all genres (with Docker: `docker-compose exec app <command>`):
 
 ```bash
 php artisan tmdb:import
@@ -69,8 +69,14 @@ php artisan serve
 Tests use a separate MySQL database. Create it before running:
 
 ```bash
+# Local
 mysql -u root -p -e "CREATE DATABASE movies_api_test;"
+
+# Docker
+docker-compose exec mysql mysql -u root -proot -e "CREATE DATABASE movies_api_test;"
 ```
+
+Then run tests (with Docker: `docker-compose exec app <command>`):
 
 ```bash
 php artisan test
