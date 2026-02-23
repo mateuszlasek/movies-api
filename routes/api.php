@@ -7,4 +7,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('movies', MovieController::class)->only(['index', 'show']);
 Route::apiResource('series', SerieController::class)->only(['index', 'show']);
-Route::apiResource('genres', GenreController::class)->only(['index']);
+Route::apiResource('genres', GenreController::class)->only(['index', 'show']);

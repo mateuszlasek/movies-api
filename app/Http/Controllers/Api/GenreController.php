@@ -13,4 +13,9 @@ class GenreController extends Controller
     {
         return GenreResource::collection(Genre::paginate());
     }
+
+    public function show(Genre $genre): GenreResource
+    {
+        return new GenreResource($genre);
+    }
 }
