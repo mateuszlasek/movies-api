@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Http;
 
 class TmdbService
 {
-    private const LOCALES = ['en', 'pl', 'de'];
-
     private PendingRequest $http;
 
     public function __construct()
@@ -46,7 +44,7 @@ class TmdbService
     {
         $results = [];
 
-        foreach (self::LOCALES as $locale) {
+        foreach (config('services.tmdb.locales') as $locale) {
             foreach ($fetcher($locale) as $item) {
                 $id = $item['id'];
                 $results[$id] ??= ['tmdb_id' => $id];

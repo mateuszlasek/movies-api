@@ -8,13 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SetLocaleFromHeader
 {
-    private const SUPPORTED_LOCALES = ['en', 'pl', 'de'];
-    private const DEFAULT_LOCALE = 'en';
-
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->getPreferredLanguage(self::SUPPORTED_LOCALES)
-            ?? self::DEFAULT_LOCALE;
+        $supported = config('services.tmdb.locales');
+
+        $locale = $request->getPreferredLanguage($supported)
+            ?? $supported[0];
 
         app()->setLocale($locale);
 
