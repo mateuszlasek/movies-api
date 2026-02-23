@@ -7,10 +7,15 @@ use App\Models\Movie;
 use App\Services\TmdbService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ImportMoviesJob implements ShouldQueue
 {
     use Queueable;
+
+    public int $tries = 3;
+    public int $timeout = 300;
 
     private const TOTAL = 50;
 
@@ -62,5 +67,12 @@ class ImportMoviesJob implements ShouldQueue
                 $imported++;
             }
         }
+    }
+
+    public function failed(Throwable $e): void
+    {
+        Log::error('ImportMoviesJob failed', [
+            'message' => $e->getMessage(),
+        ]);
     }
 }

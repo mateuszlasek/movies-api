@@ -6,10 +6,15 @@ use App\Models\Genre;
 use App\Services\TmdbService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ImportGenresJob implements ShouldQueue
 {
     use Queueable;
+
+    public int $tries = 3;
+    public int $timeout = 120;
 
     public function handle(TmdbService $tmdb): void
     {
@@ -27,5 +32,12 @@ class ImportGenresJob implements ShouldQueue
                 ]
             );
         }
+    }
+
+    public function failed(Throwable $e): void
+    {
+        Log::error('ImportGenresJob failed', [
+            'message' => $e->getMessage(),
+        ]);
     }
 }

@@ -7,10 +7,15 @@ use App\Models\Serie;
 use App\Services\TmdbService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ImportSeriesJob implements ShouldQueue
 {
     use Queueable;
+
+    public int $tries = 3;
+    public int $timeout = 120;
 
     private const TOTAL = 10;
 
@@ -49,5 +54,12 @@ class ImportSeriesJob implements ShouldQueue
 
             $serie->genres()->sync($genreIds);
         }
+    }
+
+    public function failed(Throwable $e): void
+    {
+        Log::error('ImportSeriesJob failed', [
+            'message' => $e->getMessage(),
+        ]);
     }
 }

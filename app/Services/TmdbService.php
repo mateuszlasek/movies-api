@@ -13,6 +13,8 @@ class TmdbService
     {
         $this->http = Http::baseUrl('https://api.themoviedb.org/3')
             ->withToken(config('services.tmdb.token'))
+            ->timeout(30)
+            ->retry(3, 1000)
             ->throw();
     }
 
