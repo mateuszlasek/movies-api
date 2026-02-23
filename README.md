@@ -8,7 +8,7 @@ Laravel 12 REST API that fetches movies, series and genres from TMDB and serves 
 cp .env.example .env
 # Set TMDB_API_TOKEN in .env
 
-docker-compose up -d
+docker-compose up -d --build
 
 docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan migrate
@@ -21,7 +21,7 @@ App available at: http://localhost:8000
 
 ## Requirements (without Docker)
 
-- PHP 8.2+
+- PHP 8.4+
 - MySQL 8.0+ / MariaDB
 - Composer
 - Node.js + npm
