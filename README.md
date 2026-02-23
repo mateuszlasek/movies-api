@@ -99,9 +99,10 @@ Supported languages: `en` (default), `pl`, `de`.
 
 ### Genres
 
-| Method | Endpoint      | Description             |
-|--------|---------------|-------------------------|
-| GET    | `/api/genres` | List genres (paginated) |
+| Method | Endpoint           | Description             |
+|--------|--------------------|-------------------------|
+| GET    | `/api/genres`      | List genres (paginated) |
+| GET    | `/api/genres/{id}` | Get single genre        |
 
 ### Query parameters
 
