@@ -66,6 +66,12 @@ php artisan serve
 
 ## Running tests
 
+Tests use a separate MySQL database. Create it before running:
+
+```bash
+mysql -u root -p -e "CREATE DATABASE movies_api_test;"
+```
+
 ```bash
 php artisan test
 ```
