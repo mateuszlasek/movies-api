@@ -25,8 +25,6 @@ services:
 
   mysql:
     image: mariadb:11
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_DATABASE: movies_api
       MYSQL_USER: movies
@@ -54,6 +52,7 @@ services:
         condition: service_healthy
     environment:
       - APP_ENV=local
+      - CACHE_STORE=array
 
 volumes:
   mysql_data:
