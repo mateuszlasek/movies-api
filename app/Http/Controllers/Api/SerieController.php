@@ -16,8 +16,8 @@ class SerieController extends Controller
         );
     }
 
-    public function show(Serie $serie): SerieResource
+    public function show(Serie $series): SerieResource
     {
-        return new SerieResource($serie->load('genres'));
+        return new SerieResource($series->load('genres'));
     }
 }
