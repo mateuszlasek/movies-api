@@ -34,4 +34,18 @@ class GenreApiTest extends TestCase
         $response->assertOk()
             ->assertJsonPath('data.0.name', 'Akcja');
     }
+
+    public function test_genres_show_returns_single_genre(): void
+    {
+        $genre = Genre::factory()->create();
+
+        $this->getJson("/api/genres/{$genre->id}")
+            ->assertOk()
+            ->assertJsonPath('data.id', $genre->id);
+    }
+
+    public function test_genres_show_returns_404_for_missing_genre(): void
+    {
+        $this->getJson('/api/genres/999')->assertNotFound();
+    }
 }
