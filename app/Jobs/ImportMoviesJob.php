@@ -19,8 +19,6 @@ class ImportMoviesJob implements ShouldQueue
 
     private const TOTAL = 50;
 
-    private const PER_PAGE = 20;
-
     public function handle(TmdbService $tmdb): void
     {
         $imported = 0;
@@ -29,12 +27,16 @@ class ImportMoviesJob implements ShouldQueue
         while ($imported < self::TOTAL) {
             $movies = $tmdb->getPopularMovies($page++);
 
+            if (empty($movies)) {
+                break;
+            }
+
             foreach ($movies as $data) {
                 if ($imported >= self::TOTAL) {
                     break;
                 }
 
-                $localeEn = $data['_locales']['en'];
+                $localeEn = $data['_locales']['en'] ?? [];
 
                 $movie = Movie::updateOrCreate(
                     ['tmdb_id' => $data['tmdb_id']],
@@ -59,9 +61,7 @@ class ImportMoviesJob implements ShouldQueue
                     ]
                 );
 
-                $genreIds = Genre::whereIn('tmdb_id', $localeEn['genre_ids'] ?? [])
-                    ->pluck('id');
-
+                $genreIds = Genre::whereIn('tmdb_id', $localeEn['genre_ids'] ?? [])->pluck('id');
                 $movie->genres()->sync($genreIds);
 
                 $imported++;

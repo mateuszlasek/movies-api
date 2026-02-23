@@ -24,7 +24,7 @@ class ImportSeriesJob implements ShouldQueue
         $series = $tmdb->getPopularSeries();
 
         foreach (array_slice($series, 0, self::TOTAL) as $data) {
-            $localeEn = $data['_locales']['en'];
+            $localeEn = $data['_locales']['en'] ?? [];
 
             $serie = Serie::updateOrCreate(
                 ['tmdb_id' => $data['tmdb_id']],
@@ -49,9 +49,7 @@ class ImportSeriesJob implements ShouldQueue
                 ]
             );
 
-            $genreIds = Genre::whereIn('tmdb_id', $localeEn['genre_ids'] ?? [])
-                ->pluck('id');
-
+            $genreIds = Genre::whereIn('tmdb_id', $localeEn['genre_ids'] ?? [])->pluck('id');
             $serie->genres()->sync($genreIds);
         }
     }
